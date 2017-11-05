@@ -1,10 +1,9 @@
 import { request } from '../../common/CustomSuperagent';
-import AppDispatcher from '../../common/AppDispatcher';
 import RecipeConstants from '../constants/RecipeConstants';
 import { serverURLs } from '../../common/config'
 
-class RecipeActions {
-  submit(data) {
+export const submit = (data) => {
+  return (dispatch) => {
     let photo = false;
     if (typeof data.photo == "object") {
       photo = data.photo;
@@ -54,7 +53,7 @@ class RecipeActions {
 
     let r = 'id' in data ?
       request().put(serverURLs.recipe + data.id + '/') :
-      request().post(serverURLs.recipe) ;
+      request().post(serverURLs.recipe);
 
     r.send(data)
       .end((err, res) => {
@@ -73,8 +72,10 @@ class RecipeActions {
         }
       });
   }
+};
 
-  submitPhoto(res, photo) {
+export const submitPhoto = (res, photo) => {
+  return (dispatch) => {
     request()
       .patch(serverURLs.recipe + res.body.id + "/")
       .attach('photo', photo)
@@ -88,93 +89,109 @@ class RecipeActions {
         }
       });
   }
+};
 
-  handleSubmit(new_recipe_id) {
-    AppDispatcher.dispatch({
-      actionType: RecipeConstants.SUBMIT,
+export const handleSubmit = (new_recipe_id) => {
+  return (dispatch) => {
+    dispatch({
+      type: RecipeConstants.SUBMIT,
       new_recipe_id: new_recipe_id
     });
   }
+};
 
-  error(error) {
-    AppDispatcher.dispatch({
-      actionType: RecipeConstants.ERROR,
+export const error = (error) => {
+  return (dispatch) => {
+    dispatch({
+      type: RecipeConstants.ERROR,
       error: error
     });
   }
+};
 
-  update(name, value) {
-    AppDispatcher.dispatch({
-      actionType: RecipeConstants.UPDATE,
+export const update = (name, value) => {
+  return (dispatch) => {
+    dispatch({
+      type: RecipeConstants.UPDATE,
       name: name,
       value: value,
     });
   }
+};
 
-  fetchTags() {
+export const fetchTags = () => {
+  return (dispatch) => {
     request().get(serverURLs.tag)
-    .end((err, res) => {
-      if (!err && res) {
-        const tags = res.body.results;
-        AppDispatcher.dispatch({
-          actionType: RecipeConstants.INIT,
-          tags: tags,
-        });
-      } else {
-        console.error(serverURLs.tag, err.toString());
-      }
-    });
+      .end((err, res) => {
+        if (!err && res) {
+          const tags = res.body.results;
+          dispatch({
+            type: RecipeConstants.INIT,
+            tags: tags,
+          });
+        } else {
+          console.error(serverURLs.tag, err.toString());
+        }
+      });
   }
+};
 
-  fetchCuisine() {
+export const fetchCuisine = () => {
+  return (dispatch) => {
     request().get(serverURLs.cuisine)
-    .end((err, res) => {
-      if (!err && res) {
-        const cuisine = res.body.results;
-        AppDispatcher.dispatch({
-          actionType: RecipeConstants.INIT,
-          cuisine: cuisine,
-        });
-      } else {
-        console.error(serverURLs.cuisine, err.toString());
-      }
-    });
+      .end((err, res) => {
+        if (!err && res) {
+          const cuisine = res.body.results;
+          dispatch({
+            type: RecipeConstants.INIT,
+            cuisine: cuisine,
+          });
+        } else {
+          console.error(serverURLs.cuisine, err.toString());
+        }
+      });
   }
+};
 
-  fetchRecipeList(searchTerm) {
+export const fetchRecipeList = (searchTerm) => {
+  return (dispatch) => {
     request().get(serverURLs.recipe + '?fields=id,title&limit=5&search=' + searchTerm)
-    .end((err, res) => {
-      if (!err && res) {
-        let recipeList = [];
-        res.body.results.map((recipe) => {
-          recipeList.push(recipe.title);
-        });
-        AppDispatcher.dispatch({
-          actionType: RecipeConstants.UPDATE_RECIPE_LIST,
-          recipeList: recipeList,
-        });
-      } else {
-        console.error(serverURLs.course, err.toString());
-      }
-    });
+      .end((err, res) => {
+        if (!err && res) {
+          let recipeList = [];
+          res.body.results.map((recipe) => {
+            recipeList.push(recipe.title);
+          });
+          dispatch({
+            type: RecipeConstants.UPDATE_RECIPE_LIST,
+            recipeList: recipeList,
+          });
+        } else {
+          console.error(serverURLs.course, err.toString());
+        }
+      });
   }
+};
 
-  fetchCourses() {
+export const fetchCourses = () => {
+  return (dispatch) => {
     request().get(serverURLs.course)
-    .end((err, res) => {
-      if (!err && res) {
-        const course = res.body.results;
-        AppDispatcher.dispatch({
-          actionType: RecipeConstants.INIT,
-          course: course,
-        });
-      } else {
-        console.error(serverURLs.course, err.toString());
-      }
-    });
+      .end((err, res) => {
+        if (!err && res) {
+          const course = res.body.results;
+          dispatch({
+            type: RecipeConstants.INIT,
+            course: course,
+          });
+        } else {
+          console.error(serverURLs.course, err.toString());
+        }
+      });
   }
+};
 
-  fetchRecipe(recipe_id) {
+export const fetchRecipe = (recipe_id) => {
+  return (dispatch) => {
     var url = serverURLs.recipe + recipe_id;
     request()
       .get(url)
@@ -196,8 +213,8 @@ class RecipeActions {
             });
             data.ingredient_groups = ings;
           }
-          AppDispatcher.dispatch({
-            actionType: RecipeConstants.INIT,
+          dispatch({
+            type: RecipeConstants.INIT,
             recipe: data,
           });
         } else {
@@ -205,18 +222,14 @@ class RecipeActions {
         }
       })
   }
+};
 
-  init(recipe_id) {
-    this.fetchTags();
-    this.fetchCuisine();
-    this.fetchCourses();
+export const init =(recipe_id) => {
+  this.fetchTags();
+  this.fetchCuisine();
+  this.fetchCourses();
 
-    if (recipe_id) {
-      this.fetchRecipe(recipe_id);
-    }
+  if (recipe_id) {
+    this.fetchRecipe(recipe_id);
   }
-}
-
-const RecipeAction = new RecipeActions();
-
-export default RecipeAction;
+};
