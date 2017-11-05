@@ -8,7 +8,7 @@ import {
 import AuthStore from '../../account/stores/AuthStore'
 import authCheckRedirect from '../../common/authCheckRedirect'
 import { RecipeStore, INIT_EVENT, ERROR_EVENT, CHANGE_EVENT } from '../stores/RecipeStore';
-import RecipeActions from '../actions/RecipeActions';
+import RecipeActions from '../actions/RecipeFormActions';
 
 import { DirectionList, IngredientList, SubRecipeList } from './DataList'
 import TagList from './TagList'
@@ -362,4 +362,4 @@ class RecipeForm extends React.Component {
   }
 };
 
-module.exports.RecipeForm = injectIntl(RecipeForm);
+export default injectIntl(RecipeForm);

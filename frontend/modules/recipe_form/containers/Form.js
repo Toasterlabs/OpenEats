@@ -4,15 +4,14 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import AuthStore from '../../account/stores/AuthStore'
-import Loading from '../../base/components/Loading'
-import RecipeScheme from '../components/RecipeScheme'
-import * as RecipeActions from '../actions/RecipeActions'
-import * as RecipeItemActions from '../actions/RecipeItemActions'
+import * as RecipeFormActions from '../actions/RecipeFormActions'
+import * as RecipeGroupActions from '../actions/RecipeGroupActions'
 import bindIndexToActionCreators from '../../common/bindIndexToActionCreators'
 
-require("./../css/recipe.scss");
+import Loading from '../../base/components/Loading'
+import RecipeForm from '../components/RecipeForm'
 
-class Recipe extends React.Component {
+class From extends React.Component {
   constructor(props) {
     super(props);
 
@@ -32,8 +31,8 @@ class Recipe extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.match.params.recipe !== this.props.match.params.recipe) {
-      nextProps.recipeItemActions.reset();
       nextProps.recipeActions.load(nextProps.match.params.recipe);
+      // nextProps.recipeActions.load(nextProps.match.params.recipe);
       window.scrollTo(0, 0);
     }
   }
@@ -49,13 +48,13 @@ class Recipe extends React.Component {
     if (data) {
       let showEditLink = (this.state.user !== null && this.state.user.id === data.author);
       return (
-          <RecipeScheme
-            { ...data }
-            listStatus={ status }
-            lists={ lists }
-            showEditLink={ showEditLink }
-            recipeActions={ recipeActions }
-            recipeItemActions={ recipeItemActions }
+          <RecipeForm
+            {/*{ ...data }*/}
+            // listStatus={ status }
+            // lists={ lists }
+            // showEditLink={ showEditLink }
+            // recipeActions={ recipeActions }
+            // recipeItemActions={ recipeItemActions }
           />
       );
     } else {
@@ -64,25 +63,25 @@ class Recipe extends React.Component {
   }
 }
 
-Recipe.propTypes = {
-  recipes: PropTypes.array.isRequired,
-  lists: PropTypes.array.isRequired,
-  status: PropTypes.string.isRequired,
-  match: PropTypes.object.isRequired,
-  recipeActions: PropTypes.object.isRequired,
-  recipeItemActions: PropTypes.object.isRequired,
-};
+// Recipe.propTypes = {
+//   recipes: PropTypes.array.isRequired,
+//   lists: PropTypes.array.isRequired,
+//   status: PropTypes.string.isRequired,
+//   match: PropTypes.object.isRequired,
+//   recipeActions: PropTypes.object.isRequired,
+//   recipeItemActions: PropTypes.object.isRequired,
+// };
 
 const mapStateToProps = state => ({
-  recipes: state.recipe.recipes,
-  status: state.recipe.status,
-  lists: state.list.lists,
+  courses: state.recipe.courses,
+  cuisines: state.recipe.cuisines,
+  tags: state.recipe.tags,
 });
 
 const mapDispatchToProps = (dispatch, props) => ({
-  recipeItemActions: bindActionCreators(RecipeItemActions, dispatch),
-  recipeActions: bindActionCreators(
-    bindIndexToActionCreators(RecipeActions, props.match.params.recipe),
+  recipeGroupActions: bindActionCreators(RecipeGroupActions, dispatch),
+  recipeFormActions: bindActionCreators(
+    bindIndexToActionCreators(RecipeFormActions, props.match.params.recipe),
     dispatch
   ),
 });
@@ -90,4 +89,4 @@ const mapDispatchToProps = (dispatch, props) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Recipe);
+)(From);

@@ -6,7 +6,7 @@ import {
     formatMessage
 } from 'react-intl'
 
-import RecipeActions from '../actions/RecipeActions'
+import RecipeActions from '../actions/RecipeFormActions'
 import { TextArea, Input } from '../../common/form/FormComponents'
 import Auto from './Auto'
 import { measurements } from '../../common/config'

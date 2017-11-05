@@ -2,7 +2,7 @@ import { EventEmitter } from 'events';
 import history from '../../common/history'
 
 import AppDispatcher from '../../common/AppDispatcher';
-import RecipeConstants from '../constants/RecipeConstants';
+import RecipeConstants from '../constants/RecipeFormConstants';
 
 export const INIT_EVENT = 'init';
 export const CHANGE_EVENT = 'change';
