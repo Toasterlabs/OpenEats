@@ -91,24 +91,6 @@ export const submitPhoto = (res, photo) => {
   }
 };
 
-export const handleSubmit = (new_recipe_id) => {
-  return (dispatch) => {
-    dispatch({
-      type: RecipeFormConstants.SUBMIT,
-      new_recipe_id: new_recipe_id
-    });
-  }
-};
-
-export const error = (error) => {
-  return (dispatch) => {
-    dispatch({
-      type: RecipeFormConstants.ERROR,
-      error: error
-    });
-  }
-};
-
 export const update = (name, value) => {
   return (dispatch) => {
     dispatch({
@@ -139,32 +121,11 @@ export const fetchRecipeList = (searchTerm) => {
   }
 };
 
-export const fetchRecipe = (recipe_id) => {
+export const load = (id) => {
   return (dispatch) => {
-    var url = serverURLs.recipe + recipe_id;
     request()
-      .get(serverURLs.recipe + recipe_id)
-      .then(res => {
-        let data = res.body;
-        let ings = [];
-        if (data.ingredient_groups) {
-          let ingGroups = JSON.parse(JSON.stringify(data.ingredient_groups));
-          ingGroups.map((ingredient_group) => {
-            ingredient_group.ingredients.map((ingredient) => {
-              ings.push({
-                title: ingredient.title,
-                quantity: ingredient.quantity,
-                measurement: ingredient.measurement,
-                group: ingredient_group.title
-              })
-            });
-          });
-          data.ingredient_groups = ings;
-        }
-        dispatch({
-          type: RecipeFormConstants.RECIPE_FORM_INIT,
-          data: data,
-        });
-      })
+      .get(serverURLs.recipe + id + "/")
+      .then(res => dispatch({type: RecipeFormConstants.RECIPE_FORM_INIT, data: res.body}))
+      .catch(err => { console.error(err); history.push('/notfound'); })
   }
 };

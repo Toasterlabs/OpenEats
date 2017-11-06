@@ -22,7 +22,10 @@ class From extends React.Component {
 
   componentDidMount() {
     AuthStore.addChangeListener(this._onChange);
-    this.props.recipeActions.load(this.props.match.params.recipe);
+    this.props.recipeFormActions.fetchCuisines();
+    this.props.recipeFormActions.fetchCourses();
+    this.props.recipeFormActions.fetchTags();
+    this.props.recipeGroupActions.load(this.props.match.params.recipe);
   }
 
   componentWillUnmount() {
@@ -31,8 +34,7 @@ class From extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.match.params.recipe !== this.props.match.params.recipe) {
-      nextProps.recipeActions.load(nextProps.match.params.recipe);
-      // nextProps.recipeActions.load(nextProps.match.params.recipe);
+      nextProps.recipeGroupActions.load(nextProps.match.params.recipe);
       window.scrollTo(0, 0);
     }
   }
@@ -42,19 +44,19 @@ class From extends React.Component {
   };
 
   render() {
-    let { lists, recipes, match, status } = this.props;
-    let { recipeActions, recipeItemActions } = this.props;
-    let data = recipes.find(t => t.id == match.params.recipe);
-    if (data) {
+    let { tags, courses, cuisines, form } = this.props;
+    let { recipeGroupActions, recipeFormActions } = this.props;
+    // let form = form.find(t => t.id == match.params.recipe);
+    if (form) {
       let showEditLink = (this.state.user !== null && this.state.user.id === data.author);
       return (
           <RecipeForm
-            {/*{ ...data }*/}
-            // listStatus={ status }
-            // lists={ lists }
-            // showEditLink={ showEditLink }
-            // recipeActions={ recipeActions }
-            // recipeItemActions={ recipeItemActions }
+            tags={ tags }
+            courses={ courses }
+            cuisines={ cuisines }
+            form={ form }
+            recipeGroupActions={ recipeGroupActions }
+            recipeFormActions={ recipeFormActions }
           />
       );
     } else {
@@ -73,9 +75,10 @@ class From extends React.Component {
 // };
 
 const mapStateToProps = state => ({
-  courses: state.recipe.courses,
-  cuisines: state.recipe.cuisines,
-  tags: state.recipe.tags,
+  tags: state.recipeForm.tags,
+  courses: state.recipeForm.courses,
+  cuisines: state.recipeForm.cuisines,
+  form: state.recipeForm.form,
 });
 
 const mapDispatchToProps = (dispatch, props) => ({

@@ -17,7 +17,7 @@ export const fetchTags = () => {
   }
 };
 
-export const fetchCuisine = () => {
+export const fetchCuisines = () => {
   return (dispatch) => {
     request()
       .get(serverURLs.cuisine)
