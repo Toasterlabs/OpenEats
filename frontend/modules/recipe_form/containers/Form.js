@@ -22,10 +22,10 @@ class From extends React.Component {
 
   componentDidMount() {
     AuthStore.addChangeListener(this._onChange);
-    this.props.recipeFormActions.fetchCuisines();
-    this.props.recipeFormActions.fetchCourses();
-    this.props.recipeFormActions.fetchTags();
-    this.props.recipeGroupActions.load(this.props.match.params.recipe);
+    this.props.recipeGroupActions.fetchCuisines();
+    this.props.recipeGroupActions.fetchCourses();
+    this.props.recipeGroupActions.fetchTags();
+    this.props.recipeFormActions.load(this.props.match.params.recipe);
   }
 
   componentWillUnmount() {
@@ -48,7 +48,7 @@ class From extends React.Component {
     let { recipeGroupActions, recipeFormActions } = this.props;
     // let form = form.find(t => t.id == match.params.recipe);
     if (form) {
-      let showEditLink = (this.state.user !== null && this.state.user.id === data.author);
+      let showEditLink = (this.state.user !== null && this.state.user.id === form.author);
       return (
           <RecipeForm
             tags={ tags }
