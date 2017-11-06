@@ -3,7 +3,6 @@ import {
     injectIntl,
     defineMessages,
 } from 'react-intl';
-import { RecipeStore, INIT_EVENT, ERROR_EVENT, CHANGE_EVENT } from '../stores/RecipeStore';
 
 import { DirectionList, IngredientList, SubRecipeList } from './DataList'
 import TagList from './TagList'
