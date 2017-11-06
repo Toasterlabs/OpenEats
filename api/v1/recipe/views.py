@@ -10,9 +10,7 @@ from django.db.models import Count
 from v1.recipe_groups.models import Cuisine, Course
 from rest_framework import permissions, viewsets, filters
 from rest_framework.response import Response
-from rest_framework.views import APIView
 import random
-from recipe_scrapers import scrap_me, SCRAPERS
 from . import serializers
 from .models import Recipe, Direction
 from v1.common.permissions import IsOwnerOrReadOnly
@@ -99,58 +97,6 @@ class DirectionViewSet(viewsets.ModelViewSet):
                           IsOwnerOrReadOnly)
     filter_backends = (filters.DjangoFilterBackend,)
     filter_fields = ('recipe',)
-
-
-class RecipeImportViewSet(APIView):
-    """
-    Given a URL this Viewset will mine a website for recipe data.
-    Whatever data is retrieved will be sent back to the UI.
-    
-    Only Post is allowed due to potential URL size issues.
-    """
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-
-    def get(self, request, *args, **kwargs):
-        return Response([key for key, value in SCRAPERS.iteritems()])
-
-    def post(self, request, *args, **kwargs):
-        url = request.data.get('url')
-        if url:
-            try:
-                data = scrap_me(url)
-                response = {}
-                response['title'] = self.mine_data(data, 'title')
-                response['servings'] = self.mine_data(data, 'servings')
-                response['ingredients'] = self.mine_data(data, 'ingredients')
-                response['info'] = self.mine_data(data, 'description')
-                response['image'] = self.mine_data(data, 'image')
-                response['source'] = url
-
-                # Get the directions and add a step key to it.
-                response['directions'] = [
-                    {'step': i+1, 'title': instruction} for i, instruction in enumerate(data.instructions())
-                ]
-
-                # Break the total time into two groups.
-                # Prep Time and Cook Time.
-                total_time = self.mine_data(data, 'total_time')
-                if 'prep-time' in total_time:
-                    response['prep_time'] = total_time.get('prep-time', '')
-                if 'cook-time' in total_time:
-                    response['cook_time'] = total_time.get('cook-time', '')
-
-                return Response(response)
-            except:
-                return Response({'error': '2', 'response': 'Bad URL or URL not supported'})
-        return Response({'error': '3', 'response': 'No URL given.'})
-
-    def mine_data(self, data, key):
-        # Wrap all fetching in a try catch.
-        # So if one part fails, the rest can be returned.
-        try:
-            return getattr(data, key)()
-        except:
-            return ''
 
 
 class RatingViewSet(viewsets.ReadOnlyModelViewSet):

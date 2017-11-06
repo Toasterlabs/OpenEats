@@ -15,5 +15,4 @@ router.register(r'rating', views.RatingViewSet, base_name='rating')
 
 urlpatterns = [
     url(r'^', include(router.urls)),
-    url(r'^import-recipe/$', views.RecipeImportViewSet.as_view())
 ]
