@@ -131,84 +131,99 @@ class RecipeForm extends React.Component {
       }
     });
 
+    console.log(this.props);
+
     return (
       <div className="container">
         <div className="row">
-          <div id="recipe" className="col-lg-push-1 col-lg-10">
-            <form className="recipe-form">
-              {/*<Input*/}
-                {/*name="title"*/}
-                {/*type="text"*/}
-                {/*label={ formatMessage(messages.name_label) }*/}
-                {/*placeholder={ formatMessage(messages.name_placeholder) }*/}
-                {/*change={ this.props.recipeFormActions.update }*/}
-                {/*value={ this.props.title }*/}
-                {/*errors={ this.props.getErrors('title') } />*/}
-              {/*<div className="row">*/}
-                {/*<Select*/}
-                  {/*name="course"*/}
-                  {/*data={ this.props.courses }*/}
-                  {/*label={ formatMessage(messages.course_label) }*/}
-                  {/*size="col-sm-4 col-xs-12"*/}
-                  {/*change={ this.props.recipeFormActions.update }*/}
-                  {/*value={ this.props.recipe.course }*/}
-                  {/*errors={ this.props.getErros('course') } />*/}
-                {/*<Select*/}
-                  {/*name="cuisine"*/}
-                  {/*data={ this.props.cuisines }*/}
-                  {/*label={ formatMessage(messages.cuisine_label) }*/}
-                  {/*size="col-sm-4 col-xs-12"*/}
-                  {/*change={ this.props.recipeFormActions.update }*/}
-                  {/*value={ this.props.recipe.cuisine }*/}
-                  {/*errors={ this.props.getErros('cuisine') } />*/}
-                {/*<TagList*/}
-                  {/*name="tags"*/}
-                  {/*data={ this.props.tags }*/}
-                  {/*label={ formatMessage(messages.tags_label) }*/}
-                  {/*size="col-sm-4 col-xs-12"*/}
-                  {/*change={ this.props.recipeFormActions.update }*/}
-                  {/*tags={ this.props.recipe.tags }*/}
-                  {/*errors={ this.props.getErros('tags') } />*/}
-              {/*</div>*/}
+          <form className="recipe-form">
+            { this.props.errors ? ( <Alert/> ) : ''}
+            <div id="recipe" className="col-md-4">
+              { this.props.form.photo_thumbnail ?
+                <img src={ this.props.form.photo_thumbnail } /> :
+                null
+              }
+              <File
+                name="photo"
+                label={ formatMessage(messages.photo_label) }
+                placeholder={ formatMessage(messages.photo_placeholder) }
+                accept="image/*"
+                change={ this.props.recipeFormActions.update }
+              />
 
-              {/*<div className="row">*/}
-                {/*<Input*/}
-                  {/*name="prep_time"*/}
-                  {/*type="number"*/}
-                  {/*label={ formatMessage(messages.prep_time_label) }*/}
-                  {/*placeholder={ formatMessage(messages.prep_time_placeholder) }*/}
-                  {/*size="col-sm-3 col-xs-12"*/}
-                  {/*change={ this.props.recipeFormActions.update }*/}
-                  {/*value={ this.props.recipe.prep_time }*/}
-                  {/*errors={ this.props.getErros('prep_time') } />*/}
-                {/*<Input*/}
-                  {/*name="cook_time"*/}
-                  {/*type="number"*/}
-                  {/*label={ formatMessage(messages.cooking_time_label) }*/}
-                  {/*placeholder={ formatMessage(messages.cooking_time_placeholder) }*/}
-                  {/*size="col-sm-3 col-xs-12"*/}
-                  {/*change={ this.props.recipeFormActions.update }*/}
-                  {/*value={ this.props.recipe.cook_time }*/}
-                  {/*errors={ this.props.getErros('cook_time') } />*/}
-                {/*<Input*/}
-                  {/*name="servings"*/}
-                  {/*type="number"*/}
-                  {/*label={ formatMessage(messages.servings_label) }*/}
-                  {/*placeholder={ formatMessage(messages.servings_placeholder) }*/}
-                  {/*size="col-sm-3 col-xs-12"*/}
-                  {/*change={ this.props.recipeFormActions.update }*/}
-                  {/*value={ this.props.recipe.servings }*/}
-                  {/*errors={ this.props.getErros('servings') } />*/}
-                {/*<Input*/}
-                  {/*name="rating"*/}
-                  {/*type="number"*/}
-                  {/*label={ formatMessage(messages.rating_label) }*/}
-                  {/*placeholder={ formatMessage(messages.rating_placeholder) }*/}
-                  {/*size="col-sm-3 col-xs-12"*/}
-                  {/*change={ this.props.recipeFormActions.update }*/}
-                  {/*value={ this.props.recipe.rating }*/}
-                  {/*errors={ this.props.getErros('rating') } />*/}
-              {/*</div>*/}
+              <div className="row">
+                <Select
+                  name="course"
+                  data={ this.props.courses }
+                  label={ formatMessage(messages.course_label) }
+                  size="col-sm-6 col-xs-12"
+                  change={ this.props.recipeFormActions.update }
+                  value={ this.props.form.course }
+                  // errors={ this.props.getErros('course') }
+                />
+                <Select
+                  name="cuisine"
+                  data={ this.props.cuisines }
+                  label={ formatMessage(messages.cuisine_label) }
+                  size="col-sm-6 col-xs-12"
+                  change={ this.props.recipeFormActions.update }
+                  value={ this.props.form.cuisine }
+                  // errors={ this.props.getErros('cuisine') }
+                />
+                <TagList
+                  name="tags"
+                  data={ this.props.tags }
+                  label={ formatMessage(messages.tags_label) }
+                  size="col-sm-12 col-xs-12"
+                  change={ this.props.recipeFormActions.update }
+                  tags={ this.props.form.tags }
+                  // errors={ this.props.getErros('tags') }
+                />
+              </div>
+
+              <div className="row">
+                <Input
+                  name="prep_time"
+                  type="number"
+                  label={ formatMessage(messages.prep_time_label) }
+                  placeholder={ formatMessage(messages.prep_time_placeholder) }
+                  size="col-sm-6 col-xs-12"
+                  change={ this.props.recipeFormActions.update }
+                  value={ this.props.form.prep_time }
+                  // errors={ this.props.getErros('prep_time') }
+                />
+                <Input
+                  name="cook_time"
+                  type="number"
+                  label={ formatMessage(messages.cooking_time_label) }
+                  placeholder={ formatMessage(messages.cooking_time_placeholder) }
+                  size="col-sm-6 col-xs-12"
+                  change={ this.props.recipeFormActions.update }
+                  value={ this.props.form.cook_time }
+                  // errors={ this.props.getErros('cook_time') }
+                />
+                <Input
+                  name="servings"
+                  type="number"
+                  label={ formatMessage(messages.servings_label) }
+                  placeholder={ formatMessage(messages.servings_placeholder) }
+                  size="col-sm-6 col-xs-12"
+                  change={ this.props.recipeFormActions.update }
+                  value={ this.props.form.servings }
+                  // errors={ this.props.getErros('servings') }
+                />
+                <Input
+                  name="rating"
+                  type="number"
+                  label={ formatMessage(messages.rating_label) }
+                  placeholder={ formatMessage(messages.rating_placeholder) }
+                  size="col-sm-6 col-xs-12"
+                  change={ this.props.recipeFormActions.update }
+                  value={ this.props.form.rating }
+                  // errors={ this.props.getErros('rating') }
+                />
+              </div>
+
 
               {/*<SubRecipeList*/}
                 {/*name="subrecipes"*/}
@@ -229,14 +244,6 @@ class RecipeForm extends React.Component {
                 {/*change={ this.props.recipeFormActions.update }*/}
                 {/*data={ this.props.recipe.directions }*/}
                 {/*errors={ this.props.getErros('directions') } />*/}
-              {/*<TextArea*/}
-                {/*name="info"*/}
-                {/*rows="4"*/}
-                {/*label={ formatMessage(messages.information_label) }*/}
-                {/*placeholder={ formatMessage(messages.information_placeholder) }*/}
-                {/*change={ this.props.recipeFormActions.update }*/}
-                {/*value={ this.props.recipe.info }*/}
-                {/*errors={ this.props.getErros('info') } />*/}
               {/*<Input*/}
                 {/*name="source"*/}
                 {/*type="text"*/}
@@ -246,27 +253,43 @@ class RecipeForm extends React.Component {
                 {/*value={ this.props.recipe.source }*/}
                 {/*errors={ this.props.getErros('source') } />*/}
 
-              {/*{ this.props.recipe.photo_thumbnail ?*/}
-                {/*<img src={ this.props.recipe.photo_thumbnail } /> :*/}
-                {/*null*/}
-              {/*}*/}
+            </div>
+            <div id="recipe" className="col-md-8">
+              <Input
+                name="title"
+                type="text"
+                label={ formatMessage(messages.name_label) }
+                placeholder={ formatMessage(messages.name_placeholder) }
+                change={ this.props.recipeFormActions.update }
+                value={ this.props.form.title }
+                // errors={ this.props.getErrors('title') }
+              />
+              <TextArea
+                name="info"
+                rows="4"
+                label={ formatMessage(messages.information_label) }
+                placeholder={ formatMessage(messages.information_placeholder) }
+                change={ this.props.recipeFormActions.update }
+                value={ this.props.form.info }
+                // errors={ this.props.getErros('info') }
+              />
+              <Input
+                name="source"
+                type="text"
+                label={ formatMessage(messages.source_label) }
+                placeholder={ formatMessage(messages.source_placeholder) }
+                change={ this.props.recipeFormActions.update }
+                value={ this.props.form.source }
+                // errors={ this.props.getErros('source') }
+              />
 
-              {/*<File*/}
-                {/*name="photo"*/}
-                {/*label={ formatMessage(messages.photo_label) }*/}
-                {/*placeholder={ formatMessage(messages.photo_placeholder) }*/}
-                {/*accept="image/*"*/}
-                {/*change={ this.props.recipeFormActions.update } />*/}
-
-              {/*{ this.state.errors !== false ? ( <Alert/> ) : ''}*/}
-              {/*<button*/}
-                {/*className="btn btn-primary"*/}
-                {/*onClick={ this.props.recipeFormActions.submit }>*/}
-                  {/*{ formatMessage(messages.submit) }*/}
-              {/*</button>*/}
-
-            </form>
-          </div>
+              <button
+                className="btn btn-primary"
+                onClick={ this.props.recipeFormActions.submit }>
+                  { formatMessage(messages.submit) }
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     )

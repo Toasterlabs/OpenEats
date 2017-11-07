@@ -2,6 +2,45 @@ import { request } from '../../common/CustomSuperagent';
 import RecipeFormConstants from '../constants/RecipeFormConstants';
 import { serverURLs } from '../../common/config'
 
+export const load = (id) => {
+  return (dispatch) => {
+    request()
+      .get(serverURLs.recipe + id + "/")
+      .then(res => dispatch({type: RecipeFormConstants.RECIPE_FORM_INIT, data: res.body}))
+      .catch(err => { console.error(err); history.push('/notfound'); })
+  }
+};
+
+export const update = (name, value) => {
+  return (dispatch) => {
+    dispatch({
+      type: RecipeFormConstants.RECIPE_FORM_UPDATE,
+      name: name,
+      value: value,
+    });
+  }
+};
+
+export const fetchRecipeList = (searchTerm) => {
+  return (dispatch) => {
+    request().get(serverURLs.recipe + '?fields=id,title&limit=5&search=' + searchTerm)
+      .end((err, res) => {
+        if (!err && res) {
+          let recipeList = [];
+          res.body.results.map((recipe) => {
+            recipeList.push(recipe.title);
+          });
+          dispatch({
+            type: RecipeFormConstants.UPDATE_RECIPE_LIST,
+            recipeList: recipeList,
+          });
+        } else {
+          console.error(serverURLs.course, err.toString());
+        }
+      });
+  }
+};
+
 export const submit = (data) => {
   return (dispatch) => {
     let photo = false;
@@ -88,44 +127,5 @@ export const submitPhoto = (res, photo) => {
           this.error(res.body);
         }
       });
-  }
-};
-
-export const update = (name, value) => {
-  return (dispatch) => {
-    dispatch({
-      type: RecipeFormConstants.UPDATE,
-      name: name,
-      value: value,
-    });
-  }
-};
-
-export const fetchRecipeList = (searchTerm) => {
-  return (dispatch) => {
-    request().get(serverURLs.recipe + '?fields=id,title&limit=5&search=' + searchTerm)
-      .end((err, res) => {
-        if (!err && res) {
-          let recipeList = [];
-          res.body.results.map((recipe) => {
-            recipeList.push(recipe.title);
-          });
-          dispatch({
-            type: RecipeFormConstants.UPDATE_RECIPE_LIST,
-            recipeList: recipeList,
-          });
-        } else {
-          console.error(serverURLs.course, err.toString());
-        }
-      });
-  }
-};
-
-export const load = (id) => {
-  return (dispatch) => {
-    request()
-      .get(serverURLs.recipe + id + "/")
-      .then(res => dispatch({type: RecipeFormConstants.RECIPE_FORM_INIT, data: res.body}))
-      .catch(err => { console.error(err); history.push('/notfound'); })
   }
 };

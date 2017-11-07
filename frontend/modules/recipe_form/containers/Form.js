@@ -25,7 +25,7 @@ class From extends React.Component {
     this.props.recipeGroupActions.fetchCuisines();
     this.props.recipeGroupActions.fetchCourses();
     this.props.recipeGroupActions.fetchTags();
-    this.props.recipeFormActions.load(this.props.match.params.recipe);
+    this.props.recipeFormActions.load(this.props.match.params.id);
   }
 
   componentWillUnmount() {
@@ -33,8 +33,8 @@ class From extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.match.params.recipe !== this.props.match.params.recipe) {
-      nextProps.recipeGroupActions.load(nextProps.match.params.recipe);
+    if (nextProps.match.params.id !== this.props.match.params.id) {
+      nextProps.recipeGroupActions.load(nextProps.match.params.id);
       window.scrollTo(0, 0);
     }
   }
@@ -75,16 +75,16 @@ class From extends React.Component {
 // };
 
 const mapStateToProps = state => ({
-  tags: state.recipeForm.tags,
-  courses: state.recipeForm.courses,
-  cuisines: state.recipeForm.cuisines,
+  tags: state.recipeForm.recipeGroups.tags,
+  courses: state.recipeForm.recipeGroups.courses,
+  cuisines: state.recipeForm.recipeGroups.cuisines,
   form: state.recipeForm.form,
 });
 
 const mapDispatchToProps = (dispatch, props) => ({
   recipeGroupActions: bindActionCreators(RecipeGroupActions, dispatch),
   recipeFormActions: bindActionCreators(
-    bindIndexToActionCreators(RecipeFormActions, props.match.params.recipe),
+    bindIndexToActionCreators(RecipeFormActions, props.match.params.id),
     dispatch
   ),
 });

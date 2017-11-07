@@ -3,7 +3,7 @@ import RecipeGroupConstants from '../constants/RecipeGroupConstants'
 
 function createRecipeGroupWithNamedType(groupName = '') {
   return function recipeGroup(state = [], action) {
-    if (action.name !== groupName) {
+    if (action.groupName !== groupName) {
       return state;
     }
 
