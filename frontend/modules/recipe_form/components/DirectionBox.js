@@ -2,7 +2,7 @@ import React from 'react'
 
 import { TextArea } from '../../common/form/FormComponents'
 
-class DirectionList extends React.Component {
+class DirectionBox extends React.Component {
   constructor(props) {
     super(props);
 
@@ -80,4 +80,4 @@ class DirectionList extends React.Component {
   }
 }
 
-export default DirectionList
+export default DirectionBox
