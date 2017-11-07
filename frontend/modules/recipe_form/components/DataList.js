@@ -6,7 +6,7 @@ import {
     formatMessage
 } from 'react-intl'
 
-import { Direction, Ingredient, SubRecipe } from './DataListItem'
+import { Ingredient, SubRecipe } from './DataListItem'
 
 class DataList extends React.Component {
   constructor(props) {
@@ -114,51 +114,6 @@ class DataList extends React.Component {
   }
 }
 
-class DirectionList extends DataList {
-  constructor(props) {
-    super(props);
-  }
-
-  getDataList() {
-    return this.state.data.map((data, key) => {
-      return (
-        <Direction 
-          key={ key.toString() + '-' + this.state.data.length.toString() }
-          id={ key }
-          data={ data }
-          change={ (name, value) => { this.updateData(key, name, value); } }
-          deleteData={ (e) => { this.deleteData(e, key) } }/>
-        )
-    });
-  }
-
-  deleteData(e, key) {
-    e.preventDefault();
-
-    let data = this.state.data;
-    data.splice(key, 1);
-    data = data.map((i, k) => { return {step: k + 1, title: i.title};});
-
-    this.setState({
-      data: data
-    });
-
-    if (this.props.change) {
-      this.props.change(this.props.name, data);
-    }
-  }
-
-  getMessages() {
-    return defineMessages({
-      next_data: {
-        id: 'directions.next_direction',
-        description: 'Next direction button text',
-        defaultMessage: 'Next direction',
-      }
-    });
-  }
-}
-
 class IngredientList extends DataList {
   constructor(props) {
     super(props);
@@ -218,6 +173,5 @@ class SubRecipeList extends DataList {
   }
 }
 
-module.exports.DirectionList = injectIntl(DirectionList);
 module.exports.IngredientList = injectIntl(IngredientList);
 module.exports.SubRecipeList = injectIntl(SubRecipeList);

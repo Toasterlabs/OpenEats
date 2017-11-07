@@ -73,7 +73,6 @@ class DirectionList extends React.Component {
         label={ this.props.label }
         placeholder={ this.props.label }
         change={ this.handleChange }
-        // change={ this.props.recipeFormActions.update }
         value={ this.state.text }
         // errors={ this.props.getErros('info') }
       />

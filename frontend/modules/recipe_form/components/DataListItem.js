@@ -11,65 +11,6 @@ import { TextArea, Input } from '../../common/form/FormComponents'
 import Auto from './Auto'
 import { measurements } from '../../common/config'
 
-class Direction extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      step: this.props.data ? this.props.data.step : 0,
-      title: this.props.data ? this.props.data.title : ''
-    };
-
-    this.update = this.update.bind(this);
-  }
-
-  update(name, value) {
-    this.setState({ [name]: value });
-    if(this.props.change) {
-      this.props.change(name, value);
-    }
-  }
-
-  render() {
-    const {formatMessage} = this.props.intl;
-    const messages = defineMessages({
-      step_label: {
-        id: 'directions.step_label',
-        description: 'Step # label',
-        defaultMessage: 'Step {step, number}',
-      },
-      textarea_placeholder: {
-        id: 'directions.textarea_placeholder',
-        description: 'Step # label',
-        defaultMessage: 'Direction',
-      }
-    });
-
-    return (
-      <div className="direction row">
-        <label className="col-sm-1 hidden-xs">
-          { formatMessage(messages.step_label, {step: this.state.step}) }:
-        </label>
-        <label className="col-sm-1 visible-xs">
-          { this.state.step }:
-        </label>
-        <TextArea
-          name="title"
-          type="text"
-          placeholder={ formatMessage(messages.textarea_placeholder) }
-          size="col-sm-10 col-xs-9"
-          change={ this.update }
-          value={ this.state.title }/>
-        <div className="col-sm-1 col-xs-2">
-          <div className="form-group">
-            <button onClick={ this.props.deleteData } className="btn btn-danger glyphicon glyphicon-remove" />
-          </div>
-        </div>
-      </div>
-    )
-  }
-}
-
 class Ingredient extends React.Component {
   constructor(props) {
     super(props);
@@ -249,6 +190,5 @@ class SubRecipe extends React.Component {
   }
 }
 
-module.exports.Direction = injectIntl(Direction);
 module.exports.Ingredient = injectIntl(Ingredient);
 module.exports.SubRecipe = injectIntl(SubRecipe);
