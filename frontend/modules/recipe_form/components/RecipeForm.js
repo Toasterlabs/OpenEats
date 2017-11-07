@@ -4,7 +4,8 @@ import {
     defineMessages,
 } from 'react-intl';
 
-import { DirectionList, IngredientList, SubRecipeList } from './DataList'
+import { IngredientList, SubRecipeList } from './DataList'
+import DirectionList from './DirectionList'
 import TagList from './TagList'
 import { Input, File, Alert, Select, TextArea } from '../../common/form/FormComponents'
 
@@ -238,12 +239,6 @@ class RecipeForm extends React.Component {
                 {/*change={ this.props.recipeFormActions.update }*/}
                 {/*data={ this.props.recipe.ingredient_groups }*/}
                 {/*errors={ this.props.getErros('ingredients') } />*/}
-              {/*<DirectionList*/}
-                {/*name="directions"*/}
-                {/*label={ formatMessage(messages.directions_label) }*/}
-                {/*change={ this.props.recipeFormActions.update }*/}
-                {/*data={ this.props.recipe.directions }*/}
-                {/*errors={ this.props.getErros('directions') } />*/}
               {/*<Input*/}
                 {/*name="source"*/}
                 {/*type="text"*/}
@@ -272,6 +267,13 @@ class RecipeForm extends React.Component {
                 change={ this.props.recipeFormActions.update }
                 value={ this.props.form.info }
                 // errors={ this.props.getErros('info') }
+              />
+              <DirectionList
+                name="directions"
+                label={ formatMessage(messages.directions_label) }
+                change={ this.props.recipeFormActions.update }
+                data={ this.props.form.directions }
+                // errors={ this.props.getErros('directions') }
               />
               <Input
                 name="source"
