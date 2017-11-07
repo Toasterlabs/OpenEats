@@ -12,6 +12,14 @@ import { Input, File, Alert, Select, TextArea } from '../../common/form/FormComp
 require("./../css/create.scss");
 
 class RecipeForm extends React.Component {
+    getRecipeImage = (photo_thumbnail) => {
+    if (photo_thumbnail) {
+      return photo_thumbnail;
+    } else {
+      return '/images/fried-eggs.png';
+    }
+  };
+
   render() {
     const {formatMessage} = this.props.intl;
     const messages = defineMessages({
@@ -140,10 +148,8 @@ class RecipeForm extends React.Component {
           <form className="recipe-form">
             { this.props.errors ? ( <Alert/> ) : ''}
             <div id="recipe" className="col-md-4">
-              { this.props.form.photo_thumbnail ?
-                <img src={ this.props.form.photo_thumbnail } /> :
-                null
-              }
+              <img src={ this.getRecipeImage(this.props.form.photo_thumbnail) } />
+
               <File
                 name="photo"
                 label={ formatMessage(messages.photo_label) }
@@ -239,14 +245,6 @@ class RecipeForm extends React.Component {
                 {/*change={ this.props.recipeFormActions.update }*/}
                 {/*data={ this.props.recipe.ingredient_groups }*/}
                 {/*errors={ this.props.getErros('ingredients') } />*/}
-              {/*<Input*/}
-                {/*name="source"*/}
-                {/*type="text"*/}
-                {/*label={ formatMessage(messages.source_label) }*/}
-                {/*placeholder={ formatMessage(messages.source_placeholder) }*/}
-                {/*change={ this.props.recipeFormActions.update }*/}
-                {/*value={ this.props.recipe.source }*/}
-                {/*errors={ this.props.getErros('source') } />*/}
 
             </div>
             <div id="recipe" className="col-md-8">

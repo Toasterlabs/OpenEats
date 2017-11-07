@@ -30,14 +30,14 @@ class DirectionList extends React.Component {
     return dict
   };
 
-  handleChange = event => {
+  handleChange = (key, value) => {
     this.setState({
-      data: this.arrayify(event.target.value),
-      text: event.target.value
+      data: this.arrayify(value),
+      text: value
     });
 
     if(this.props.change) {
-      this.props.change(event.target.name, this.arrayify(event.target.value));
+      this.props.change(key, this.arrayify(value));
     }
   };
 
@@ -66,28 +66,13 @@ class DirectionList extends React.Component {
       )
     }
 
-    console.log(this.props)
-    console.log(this.state)
-
-      // {/*<div className={this.props.size} key={this.props.id}>*/}
-      //   {/*<div className={ className }>*/}
-      //     {/*{this.props.label ? <label>{this.props.label}</label> : null}*/}
-      //     {/*<input type="text"*/}
-      //            {/*name={ this.props.name }*/}
-      //            {/*className="form-control"*/}
-      //            {/*placeholder={this.props.placeholder}*/}
-      //            {/*value={this.state.text}*/}
-      //            {/*onChange={this.handleChange}*/}
-      //            {/*/>*/}
-      //     {/*{ errorMessage }*/}
-      //   {/*</div>*/}
-      // {/*</div>*/}
     return (
       <TextArea
-        name="info"
+        name="directions"
         rows="4"
         label={ this.props.label }
         placeholder={ this.props.label }
+        change={ this.handleChange }
         // change={ this.props.recipeFormActions.update }
         value={ this.state.text }
         // errors={ this.props.getErros('info') }
