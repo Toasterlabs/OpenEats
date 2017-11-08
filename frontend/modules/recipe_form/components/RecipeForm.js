@@ -4,10 +4,10 @@ import {
     defineMessages,
 } from 'react-intl';
 
-import { IngredientList, SubRecipeList } from './IngredientList'
+import { Input, File, Alert, Select, TextArea } from '../../common/form/FormComponents'
+import IngredientBox from './IngredientBox'
 import DirectionBox from './DirectionBox'
 import TagList from './TagList'
-import { Input, File, Alert, Select, TextArea } from '../../common/form/FormComponents'
 
 require("./../css/create.scss");
 
@@ -265,6 +265,13 @@ class RecipeForm extends React.Component {
                 change={ this.props.recipeFormActions.update }
                 value={ this.props.form.info }
                 // errors={ this.props.getErros('info') }
+              />
+              <IngredientBox
+                name="ingredients"
+                label={ formatMessage(messages.ingredients_label) }
+                change={ this.props.recipeFormActions.update }
+                data={ this.props.form.ingredient_groups }
+                // errors={ this.props.getErros('directions') }
               />
               <DirectionBox
                 name="directions"

@@ -6,7 +6,7 @@ import {
     formatMessage
 } from 'react-intl'
 
-import { Ingredient, SubRecipe } from './IngredientListItem'
+import { Ingredient, SubRecipe } from './DataListItem'
 
 class DataList extends React.Component {
   constructor(props) {

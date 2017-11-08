@@ -2,7 +2,7 @@ import React from 'react'
 
 import { TextArea } from '../../common/form/FormComponents'
 
-class DirectionBox extends React.Component {
+class IngredientBox extends React.Component {
   constructor(props) {
     super(props);
 
@@ -14,9 +14,15 @@ class DirectionBox extends React.Component {
   }
 
   unarrayify = value => {
-    return value.map((tag, key) => {
-      return tag.title
-    }).join('\n');
+    let tr = '';
+    if (value) {
+      value.map(ig => {
+        ig.ingredients.map(i => {
+          tr += i.quantity + i.measurement + i.title
+        })
+      }).join('\n\n');
+    }
+    return tr
   };
 
   arrayify = value => {
@@ -80,4 +86,4 @@ class DirectionBox extends React.Component {
   }
 }
 
-export default DirectionBox
+export default IngredientBox
